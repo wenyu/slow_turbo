@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Slow Turbo - Nintendo Switch Joycon Robot - Wenyu Zhang</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <style></style>
+    <script src="app.js"></script>
+</head>
+<body>
+    <div class="jumbotron" style="height:120px"><h3>Slow Turbo - Nintendo Switch Joycon Robot</h3></div>
+    <div id="main" class="container shadow p-4 bg-light rounded align-items-center">
+        <div class="row">
+            <div class="col-12">
+                <h5>Current status: <span id="status_text" class="badge">{{ Status }}</span></h5>
+            </div>
+        </div>
+        <div class="row busy-only mb-5">
+            <div class="col-1">Details:</div>
+            <div id="status_desc" class="busy-only col-11">
+                {{ Status Detail Description }}
+            </div>
+        </div>
+        <div class="row idle-only form-group align-items-center">
+            <label class="col-5" for="task_list">Select Task:</label>
+            <select class="form-control col-7" id="task_list">
+                <option>Line 1</option>
+                <option>Line 2</option>
+                <option>Line 3</option>
+            </select>
+        </div>
+        <div class="row idle-only form-group align-items-center">
+            <label class="col-5" for="condition_list">Select Stop Condition:</label>
+            <select class="form-control col-7" id="cond_list">
+                <option>Line 1</option>
+                <option>Line 2</option>
+                <option>Line 3</option>
+            </select>
+        </div>
+        <div id="args_row" class="row idle-only form-group align-items-center">
+            <label class="col-5">Additional Arguments:</label>
+            <form id="args_inputs" class="form-inline col">
+                <input class="col-2 mr-2">
+                <input class="col-2 mr-2">
+                <input class="col-2 mr-2">
+            </form>
+        </div>
+
+        <button id="btn_submit" data-toggle="modal" data-target="#modal" class="idle-only btn btn-block btn-lg btn-primary">Submit Task</button>
+        <button id="btn_cancel" data-toggle="modal" data-target="#modal" class="busy-only btn btn-block btn-lg btn-danger">Cancel Task</button>
+    </div>
+
+    <div class="modal" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="modal_header">
+              <h5 class="modal-title">Request Submitted</h5>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p id="response_text">Hang on...</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        var $busy_only = $(".busy-only");
+        var $idle_only = $(".idle-only");
+
+        var $status_text = $("#status_text");
+        var $status_desc = $("#status_desc");
+        var $task_list = $("#task_list");
+        var $cond_list = $("#cond_list");
+        var $args_row = $("#args_row");
+        var $args_inputs = $("#args_inputs");
+        var $btn_submit = $("#btn_submit");
+        var $btn_cancel = $("#btn_cancel");
+        var $modal_header = $("#modal_header");
+        var $response_text = $("#response_text");
+
+        var cond_segs = {};
+
+        var update_task_list = function(tasks) {
+            $task_list.empty();
+            $.each(tasks, function(_, text) {
+                $("<option>")
+                    .text(text)
+                    .val(text)
+                    .appendTo($task_list);
+            });
+        };
+
+        var update_cond_list = function(conds) {
+            $cond_list.empty();
+            cond_segs = {};
+            $.each(conds, function(_, cond) {
+                var key = cond.name;
+                var segs = cond.args;
+                var desc = cond.desc;
+                $("<option>")
+                    .text(desc)
+                    .val(key)
+                    .appendTo($cond_list);
+                cond_segs[key] = segs;
+            });
+            cond_list_selected();
+        };
+
+        var cond_list_selected = function() {
+            var key = $cond_list.val();
+            var args = cond_segs[key];
+            $args_inputs.empty();
+            if (args == 0) {
+                $args_row.hide();
+                return;
+            }
+            $args_row.show();
+
+            for (var i = 0; i < args; ++i) {
+                $input = $("<input>")
+                    .addClass("form-control col-2 mr-2")
+                    .val("0")
+                    .attr("type", "number")
+                    .attr("min", "0")
+                    .attr("step", "1");
+                if (i > 0) {
+                    $input.attr("max", "59");
+                }
+                $input.appendTo($args_inputs);
+            }
+        };
+
+        var format_status = function(str) {
+            return str.replace(/\|/g, " | ");
+        }
+
+        var update_view = function(data) {
+            console.log(data);
+
+            update_task_list(data.options.tasks);
+            update_cond_list(data.options.conditions);
+
+            if (data.busy) {
+                $busy_only.show();
+                $idle_only.hide();
+                $status_text
+                    .text("BUSY")
+                    .removeClass("badge-success")
+                    .addClass("badge-danger");
+                $status_desc.text(format_status(data.task_description));
+            } else {
+                $busy_only.hide();
+                $idle_only.show();
+
+                $status_text
+                    .text("IDLE")
+                    .removeClass("badge-danger")
+                    .addClass("badge-success");
+            }
+        };
+
+        var response_received = function(data) {
+            $modal_header
+                .removeClass("alert-secondary alert-success alert-danger")
+                .addClass(data.success ? "alert-success" : "alert-danger");
+            console.log(data);
+            $response_text.text(format_status(data.msg));
+            $.getJSON("/api/status", update_view);
+        };
+
+        var submit_clicked = function() {
+            $modal_header
+                .removeClass("alert-secondary alert-success alert-danger")
+                .addClass("alert-secondary");
+            $response_text.text("Hang on...");
+            var task = $task_list.val();
+            var cond = $cond_list.val();
+            var args_segs = $.map($args_inputs.children(), function($v) {
+                return $v.value;
+            });
+            var url = ["/api/start", task, cond].join("/") + "-" + args_segs.join(".");
+            console.log(url);
+            $.getJSON(url, response_received);
+        };
+
+        var cancel_clicked = function() {
+            $modal_header
+                .removeClass("alert-secondary alert-success alert-danger")
+                .addClass("alert-secondary");
+            $response_text.text("Hang on...");
+            $.getJSON("/api/stop", response_received);
+        };
+
+        $(document).ready(function() {
+            $.getJSON("/api/status", update_view)
+        });
+
+        $cond_list.change(cond_list_selected);
+        $btn_submit.click(submit_clicked);
+        $btn_cancel.click(cancel_clicked);
+    </script>
+</body>
+</html>

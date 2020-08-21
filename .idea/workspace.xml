@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9d0ac677-3bf4-4e41-92d9-bf7dce93f0eb" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1b3jAquqsVUr1RnIU0wS9xnfVhs" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9d0ac677-3bf4-4e41-92d9-bf7dce93f0eb" name="Default Changelist" comment="" />
+      <created>1587867531714</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587867531714</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.js" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1062" y="487" key="#Inspections" timestamp="1587867731890">
+      <screen x="44" y="23" width="2836" height="1597" />
+    </state>
+    <state x="1062" y="487" key="#Inspections/44.23.2836.1597@44.23.2836.1597" timestamp="1587867731890" />
+    <state x="1062" y="487" key="#Project_Structure" timestamp="1587867812966">
+      <screen x="44" y="23" width="2836" height="1597" />
+    </state>
+    <state x="1062" y="487" key="#Project_Structure/44.23.2836.1597@44.23.2836.1597" timestamp="1587867812966" />
+    <state x="1185" y="517" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1587867768264">
+      <screen x="44" y="23" width="2836" height="1597" />
+    </state>
+    <state x="1185" y="517" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/44.23.2836.1597@44.23.2836.1597" timestamp="1587867768264" />
+    <state x="963" y="460" key="SettingsEditor" timestamp="1587947512931">
+      <screen x="44" y="23" width="2836" height="1597" />
+    </state>
+    <state x="963" y="460" key="SettingsEditor/44.23.2836.1597@44.23.2836.1597" timestamp="1587947512931" />
+    <state x="1127" y="393" width="670" height="676" key="search.everywhere.popup" timestamp="1588185003599">
+      <screen x="44" y="23" width="2836" height="1597" />
+    </state>
+    <state x="1127" y="393" width="670" height="676" key="search.everywhere.popup/44.23.2836.1597@44.23.2836.1597" timestamp="1588185003599" />
+  </component>
+</project>
